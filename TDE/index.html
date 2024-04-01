@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carregar e Salvar Imagem</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <input type="file" id="image-input" accept="image/*">
+</div>
+
+<div class="image-container">
+    <img id="image-preview" src="#" alt="Imagem">
+</div>
+
+<div class="effects-container">
+    <button id="original-btn" class="effect-btn">Original</button>
+    <button id="negative-btn" class="effect-btn">Negativo</button>
+    <button id="brightness-btn" class="effect-btn">Brilho Máximo</button>
+    <button id="contrast-btn" class="effect-btn">Contraste</button>
+</div>
+
+<div class="button-container">
+    <button id="save-btn" class="save-btn" disabled>Salvar Imagem</button>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
