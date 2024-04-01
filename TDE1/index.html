@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Botões Criativos</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  
+    <div class="container">
+        <div class="sidebar">
+          <div class="box" id="box1"></div>
+          <div class="box" id="box2"></div>
+        </div>
+  <div class="container">
+    <div class="button-column">
+      <button class="button sum" onclick="sumImages()">Soma</button>
+      <button class="button subtract">Subtração</button>
+      <button class="button negative" onclick="applyNegativeEffect()">Negativo</button>
+      <button class="button fliplr" onclick="flipImageLR()">FlipLR</button>
+      <button class="button flipud" onclick="flipImageUD()">FlipUD</button>
+      <button class="button contatenar" onclick="concatenateImages()">Contatenar</button>
+      <button class="button image" onclick="loadImage()">Escolha uma imagem</button>
+    </div>
+    <div class="result">
+        <div class="box-result" id="box3"></div>
+        <button class="button save" onclick="saveImage()">Salvar imagem</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
