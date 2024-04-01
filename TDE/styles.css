@@ -1,0 +1,111 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    margin-top: 50px;
+    text-align: center;
+}
+
+.upload-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.upload-btn:hover {
+    background-color: #45a049;
+}
+
+.image-container {
+    width: 300px;
+    margin: 20px auto;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+#image-preview {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+    transition: opacity 0.5s ease;
+}
+
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loading-icon {
+    border: 6px solid #f3f3f3;
+    border-top: 6px solid #3498db;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.button-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.save-btn {
+    background-color: #008CBA;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.save-btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.save-btn:hover {
+    background-color: #005f75;
+}
+
+.effects-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.effect-btn {
+    margin: 0 10px;
+    background-color: #555;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.effect-btn:hover {
+    background-color: #333;
+}
