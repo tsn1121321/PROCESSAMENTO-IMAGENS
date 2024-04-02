@@ -33,35 +33,41 @@ function loadImage() {
   input.click();
 }
 
-function sumImages() {
-  if (imageArray.length === 2) {
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    const img1 = new Image();
-    const img2 = new Image();
-
-    img1.crossOrigin = 'Anonymous';
-    img2.crossOrigin = 'Anonymous';
-
-    img1.onload = function () {
-      canvas.width = img1.width;
-      canvas.height = img1.height;
-
-      ctx.drawImage(img1, 0, 0);
-
-      img2.onload = function () {
-        ctx.drawImage(img2, 0, 0);
-        const imageData = canvas.toDataURL();
-        resultImage = imageData;
-        document.getElementById('box3').style.backgroundImage = `url(${imageData})`;
+function sumImagesBoxes() {
+    if (imageArray.length === 2) {
+      const img1 = new Image();
+      const img2 = new Image();
+  
+      img1.crossOrigin = 'Anonymous';
+      img2.crossOrigin = 'Anonymous';
+  
+      img1.onload = function () {
+        img2.onload = function () {
+          if (img1.width === img2.width && img1.height === img2.height) {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+  
+            canvas.width = img1.width;
+            canvas.height = img1.height;
+  
+            ctx.drawImage(img1, 0, 0);
+            ctx.globalAlpha = 0.5; // Define a opacidade para 50%
+            ctx.drawImage(img2, 0, 0);
+  
+            const imageData = canvas.toDataURL();
+            resultImage = imageData;
+            document.getElementById('box3').style.backgroundImage = `url(${imageData})`;
+          } else {
+            alert('As imagens não têm a mesma dimensão. Impossível somar.');
+          }
+        };
+  
+        img2.src = imageArray[1];
       };
-
-      img2.src = imageArray[1];
-    };
-
-    img1.src = imageArray[0];
+  
+      img1.src = imageArray[0];
+    }
   }
-}
 
 function applyNegativeEffect() {
   if (imageArray.length >= 1) {
@@ -181,6 +187,68 @@ function flipImageUD() {
     img1.src = imageArray[0];
   }
 }
+
+function flipImageUD() {
+    if (imageArray.length >= 1) {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const img1 = new Image();
+  
+      img1.crossOrigin = 'Anonymous';
+  
+      img1.onload = function () {
+        canvas.width = img1.width;
+        canvas.height = img1.height;
+  
+        ctx.translate(0, canvas.height);
+        ctx.scale(1, -1);
+        ctx.drawImage(img1, 0, 0);
+  
+        const resultImageData = canvas.toDataURL();
+        resultImage = resultImageData;
+        document.getElementById('box3').style.backgroundImage = `url(${resultImageData})`;
+      };
+  
+      img1.src = imageArray[0];
+    }
+  }
+
+  function subtractImagesBoxes() {
+    if (imageArray.length === 2) {
+      const img1 = new Image();
+      const img2 = new Image();
+  
+      img1.crossOrigin = 'Anonymous';
+      img2.crossOrigin = 'Anonymous';
+  
+      img1.onload = function () {
+        img2.onload = function () {
+          if (img1.width === img2.width && img1.height === img2.height) {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+  
+            canvas.width = img1.width;
+            canvas.height = img1.height;
+  
+            ctx.drawImage(img1, 0, 0);
+            ctx.globalCompositeOperation = 'difference'; // Define o modo de composição para diferença
+            ctx.drawImage(img2, 0, 0);
+  
+            const imageData = canvas.toDataURL();
+            resultImage = imageData;
+            document.getElementById('box3').style.backgroundImage = `url(${imageData})`;
+          } else {
+            alert('As imagens não têm a mesma dimensão. Impossível subtrair.');
+          }
+        };
+  
+        img2.src = imageArray[1];
+      };
+  
+      img1.src = imageArray[0];
+    }
+  }
+  
 
 function saveImage() {
   if (resultImage) {
