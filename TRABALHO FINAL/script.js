@@ -1,9 +1,10 @@
 let imageArray = [];
 let resultImage = null;
 
-function loadImage() {
+function loadFirstImage() {
   const input = document.createElement('input');
   input.type = 'file';
+  input.accept = '.png, .jpg, .jpeg, .bmp, .tif, .tiff'; // Aceita múltiplos tipos de arquivo
 
   input.onchange = function (e) {
     const file = e.target.files[0];
@@ -14,24 +15,36 @@ function loadImage() {
     reader.onload = readerEvent => {
       const content = readerEvent.target.result;
 
-      if (!document.getElementById('box1').style.backgroundImage) {
-        document.getElementById('box1').style.backgroundImage = `url(${content})`;
-        imageArray[0] = content;
-      } else if (!document.getElementById('box2').style.backgroundImage) {
-        document.getElementById('box2').style.backgroundImage = `url(${content})`;
-        imageArray[1] = content;
-      } else {
-        const oldImage = document.getElementById('box1').style.backgroundImage;
-        document.getElementById('box1').style.backgroundImage = `url(${content})`;
-        document.getElementById('box2').style.backgroundImage = oldImage;
-        imageArray[0] = content;
-        imageArray[1] = oldImage;
-      }
+      document.getElementById('box1').style.backgroundImage = `url(${content})`;
+      imageArray[0] = content;
     };
   };
 
   input.click();
 }
+
+function loadSecondImage() {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.png, .jpg, .jpeg, .bmp, .tif, .tiff';
+
+  input.onchange = function (e) {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+
+    reader.readAsDataURL(file);
+
+    reader.onload = readerEvent => {
+      const content = readerEvent.target.result;
+
+      document.getElementById('box2').style.backgroundImage = `url(${content})`;
+      imageArray[1] = content;
+    };
+  };
+
+  input.click();
+}
+
 
 function sumImagesBoxes() {
     if (imageArray.length === 2) {
@@ -51,7 +64,7 @@ function sumImagesBoxes() {
             canvas.height = img1.height;
   
             ctx.drawImage(img1, 0, 0);
-            ctx.globalAlpha = 0.5; // Define a opacidade para 50%
+            ctx.globalAlpha = 0.5;
             ctx.drawImage(img2, 0, 0);
   
             const imageData = canvas.toDataURL();
@@ -87,10 +100,9 @@ function applyNegativeEffect() {
       const data = imageData.data;
 
       for (let i = 0; i < data.length; i += 4) {
-        data[i] = 255 - data[i]; // Red
-        data[i + 1] = 255 - data[i + 1]; // Green
-        data[i + 2] = 255 - data[i + 2]; // Blue
-      }
+        data[i] = 255 - data[i];
+        data[i + 1] = 255 - data[i + 1]; 
+        data[i + 2] = 255 - data[i + 2]; 
 
       ctx.putImageData(imageData, 0, 0);
 
@@ -231,7 +243,7 @@ function flipImageUD() {
             canvas.height = img1.height;
   
             ctx.drawImage(img1, 0, 0);
-            ctx.globalCompositeOperation = 'difference'; // Define o modo de composição para diferença
+            ctx.globalCompositeOperation = 'difference';
             ctx.drawImage(img2, 0, 0);
   
             const imageData = canvas.toDataURL();
@@ -322,15 +334,16 @@ function histogramaImages() {
   };
 }
 
-  
-
 function saveImage() {
   if (resultImage) {
     const link = document.createElement('a');
     link.href = resultImage;
-    link.download = 'result_image.png';
+    link.download = 'box3-resultado.png';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  } else {
+    alert('Nenhuma imagem disponível para salvar.');
+  }
   }
 }
