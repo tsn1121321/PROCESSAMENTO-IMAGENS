@@ -3,16 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Botões Criativos</title>
+  <title>Processamento de Imagens</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   
     <div class="container">
-        <div class="sidebar">
+        <div class="sidebar1">
+          <h2 style="font-size: 25px;">Imagem 1</h2>
           <div class="box" id="box1"></div>
-          <div class="box" id="box2"></div>
+          <button class="button image" onclick="loadImage()">Selecione a primeira imagem</button>
         </div>
+
+        <div class="sidebar2">
+          <h2 style="font-size: 25px;">Imagem 2</h2>
+          <div class="box" id="box2"></div>
+          <button class="button image">Selecione a segunda imagem</button>
+        </div>
+
   <div class="container">
     <div class="button-column">
       <button class="button sum" onclick="sumImagesBoxes()">Soma</button>
@@ -21,9 +29,11 @@
       <button class="button fliplr" onclick="flipImageLR()">FlipLR</button>
       <button class="button flipud" onclick="flipImageUD()">FlipUD</button>
       <button class="button contatenar" onclick="concatenateImages()">Contatenar</button>
-      <button class="button image" onclick="loadImage()">Escolha uma imagem</button>
+      <button class="button limiarizacao" onclick="concatenateImages()">Contatenar</button>
+      <button class="button histograma" onclick="concatenateImages()">Contatenar</button>
     </div>
     <div class="result">
+      <h2 style="font-size: 25px;">Resultado</h2>
         <div class="box-result" id="box3"></div>
         <button class="button save" onclick="saveImage()">Salvar imagem</button>
     </div>
