@@ -4,7 +4,7 @@ let resultImage = null;
 function loadFirstImage() {
   const input = document.createElement('input');
   input.type = 'file';
-  input.accept = '.png, .jpg, .jpeg, .bmp, .tif, .tiff'; // Aceita múltiplos tipos de arquivo
+  input.accept = '.png, .jpg, .jpeg, .bmp, .tif, .tiff';
 
   input.onchange = function (e) {
     const file = e.target.files[0];
@@ -335,15 +335,18 @@ function histogramaImages() {
 }
 
 function saveImage() {
-  if (resultImage) {
+  const box3 = document.getElementById('box3');
+  const backgroundImage = box3.style.backgroundImage;
+  
+  if (backgroundImage) {
+    const image = new Image();
+    image.src = backgroundImage.slice(5, -2);
     const link = document.createElement('a');
-    link.href = resultImage;
-    link.download = 'box3-resultado.png';
-    document.body.appendChild(link);
+    link.href = image.src;
+    link.download = 'imagem_salva.png';
     link.click();
-    document.body.removeChild(link);
   } else {
-    alert('Nenhuma imagem disponível para salvar.');
+    alert('Nenhuma imagem para salvar.');
   }
-  }
+}
 }
