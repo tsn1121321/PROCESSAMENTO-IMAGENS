@@ -1,115 +1,121 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    margin-top: 50px;
-    height: 100vh;
-  }
-  
-  .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: top;
-    margin-top: 50px;
-    width: 80%;
-  }
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+  height: 100vh;
+}
 
-  .sidebar {
-    display: flex;
-    margin-top: 60px;
-  }
-  
-  .box {
-    width: 380px;
-    height: 380px;
-    margin-right: 25px;
-    border: 1px solid #cccccc;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-  }
+.container {
+  display: flex;
+  align-items: top;
+  width: 80%;
+}
 
-  .result {
-    display: flex;
-    margin-top: 7px;
-    flex-direction: column;
-  }
-  
-  .box-result {
-    width: 380px;
-    height: 380px;
-    border: 1px solid #cccccc;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-  }
-  
-  .button-column {
-    display: flex;
-    flex-direction: column;
-    margin-top: 5px;
-    margin-left: 25px;
-  }
-  
-  .button {
-    padding: 10px 20px;
-    margin: 7px;
-    font-size: 16px;
-    cursor: pointer;
-    border: none;
-    border-radius: 5px;
-    outline: none;
-    transition: all 0.3s ease;
-  }
-  
-  .button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  }
-  
-  .sum {
-    background-color:#505050;
-    color: white;
-  }
-  
-  .subtract {
-    background-color:#505050;
-    color: white;
-  }
-  
-  .negative {
-    background-color:#505050;
-    color: white;
-  }
+.sidebar1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 25px;
+}
 
-  .fliplr {
-    background-color:#505050;
-    color: white;
-  }
-  
-  .flipud {
-    background-color:#505050;
-    color: white;
-  }
+.sidebar2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-  .contatenar {
-    background-color:#505050;
-    color: white;
-  }
+.box {
+  width: 380px;
+  height: 380px;
+  border: 1px solid #cccccc;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
 
-  .image {
-    background-color:#0093e9;
-    font-size: 18px;
-    color: white;
-  }
+.result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-  .save {
-    background-color:#00ce1b;
-    font-size: 17px;
-    color: white;
-    margin-top: 19px;
-  }
-  
+.box-result {
+  width: 380px;
+  height: 380px;
+  border: 1px solid #cccccc;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.button-column {
+  display: flex;
+  flex-direction: column;
+  margin-top: 70px;
+  margin-left: 25px;
+  margin-right: 25px;
+}
+
+.button {
+  width: 250px;
+  padding: 10px 20px;
+  margin: 7px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.sum {
+  background-color:#505050;
+  color: white;
+}
+
+.subtract {
+  background-color:#505050;
+  color: white;
+}
+
+.negative {
+  background-color:#505050;
+  color: white;
+}
+
+.fliplr {
+  background-color:#505050;
+  color: white;
+}
+
+.flipud {
+  background-color:#505050;
+  color: white;
+}
+
+.contatenar {
+  background-color:#505050;
+  color: white;
+}
+
+.image {
+  background-color:#0093e9;
+  font-size: 18px;
+  color: white;
+}
+
+.save {
+  background-color:#00ce1b;
+  font-size: 17px;
+  color: white;
+  margin-top: 19px;
+}
