@@ -248,6 +248,80 @@ function flipImageUD() {
       img1.src = imageArray[0];
     }
   }
+
+function limiarizacaoImages() {
+  var image1 = document.getElementById('box1').style.backgroundImage;
+
+  var canvas = document.createElement('canvas');
+  var ctx = canvas.getContext('2d');
+  var img = new Image();
+  img.src = image1.slice(5, -2);
+  img.onload = function() {
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx.drawImage(img, 0, 0, img.width, img.height);
+
+      var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      var data = imageData.data;
+
+      var threshold = 128; 
+
+      for (var i = 0; i < data.length; i += 4) {
+          var avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
+          var color = avg > threshold ? 255 : 0; 
+          data[i] = data[i + 1] = data[i + 2] = color;
+      }
+      ctx.putImageData(imageData, 0, 0);
+      var resultImage = canvas.toDataURL();
+      document.getElementById('box3').style.backgroundImage = 'url(' + resultImage + ')';
+  };
+}
+
+function histogramaImages() {
+  var image1 = document.getElementById('box1').style.backgroundImage;
+
+  var canvas = document.createElement('canvas');
+  var ctx = canvas.getContext('2d');
+  var img = new Image();
+  img.src = image1.slice(5, -2); 
+  img.onload = function() {
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx.drawImage(img, 0, 0, img.width, img.height);
+
+      var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      var data = imageData.data;
+
+      var histogram = new Array(256).fill(0);
+
+      for (var i = 0; i < data.length; i += 4) {
+          var avg = (data[i] + data[i + 1] + data[i + 2]) / 3; 
+          histogram[Math.round(avg)]++;
+      }
+
+      var max = Math.max(...histogram);
+
+      var histCanvas = document.createElement('canvas');
+      histCanvas.width = 256;
+      histCanvas.height = 200;
+      var histCtx = histCanvas.getContext('2d');
+      histCtx.fillStyle = 'white';
+      histCtx.fillRect(0, 0, histCanvas.width, histCanvas.height);
+      histCtx.strokeStyle = 'black';
+      histCtx.beginPath();
+
+      for (var j = 0; j < histogram.length; j++) {
+          var normalizedValue = (histogram[j] / max) * histCanvas.height;
+          histCtx.lineTo(j, histCanvas.height - normalizedValue);
+      }
+
+      histCtx.stroke();
+
+      var resultImage = histCanvas.toDataURL();
+      document.getElementById('box3').style.backgroundImage = 'url(' + resultImage + ')';
+  };
+}
+
   
 
 function saveImage() {
