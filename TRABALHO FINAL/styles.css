@@ -80,44 +80,33 @@ body {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-.sum {
-  background-color:#505050;
+.sum,
+.subtract,
+.negative,
+.fliplr,
+.flipud,
+.concatenar,
+.image,
+.blend,
+.limiarizacao,
+.histograma,
+.save {
+  background-color: #505050;
   color: white;
 }
 
-.subtract {
-  background-color:#505050;
-  color: white;
-}
-
-.negative {
-  background-color:#505050;
-  color: white;
-}
-
-.fliplr {
-  background-color:#505050;
-  color: white;
-}
-
-.flipud {
-  background-color:#505050;
-  color: white;
-}
-
-.contatenar {
-  background-color:#505050;
-  color: white;
+.button.blend:hover {
+  background-color: #0093e9;
 }
 
 .image {
-  background-color:#0093e9;
+  background-color: #0093e9;
   font-size: 18px;
   color: white;
 }
 
 .save {
-  background-color:#00ce1b;
+  background-color: #00ce1b;
   font-size: 17px;
   color: white;
   margin-top: 19px;
