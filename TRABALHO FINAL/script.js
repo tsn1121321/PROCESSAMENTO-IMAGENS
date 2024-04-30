@@ -275,55 +275,53 @@ function limiarizacaoImages() {
 
 function histogramaImages() {
     if (imageArray.length >= 1) {
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-      const img1 = new Image();
-  
-      img1.crossOrigin = 'Anonymous';
-  
-      img1.onload = function () {
-        canvas.width = img1.width;
-        canvas.height = img1.height;
-  
-        ctx.drawImage(img1, 0, 0);
-  
-        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        const data = imageData.data;
-  
-        const histogram = new Array(256).fill(0);
-  
-        for (let i = 0; i < data.length; i += 4) {
-          const avg = (data[i] + data[i + 1] + data[i + 2]) / 3; 
-          histogram[Math.round(avg)]++;
-        }
-  
-        const max = Math.max(...histogram);
-  
-        const histCanvas = document.createElement('canvas');
-        histCanvas.width = 256;
-        histCanvas.height = 200;
-        const histCtx = histCanvas.getContext('2d');
-        histCtx.fillStyle = 'white';
-        histCtx.fillRect(0, 0, histCanvas.width, histCanvas.height);
-        histCtx.strokeStyle = 'black';
-        histCtx.beginPath();
-  
-        for (let j = 0; j < histogram.length; j++) {
-          const normalizedValue = (histogram[j] / max) * histCanvas.height;
-          histCtx.lineTo(j, histCanvas.height - normalizedValue);
-        }
-  
-        histCtx.stroke();
-  
-        const resultImage = histCanvas.toDataURL(); // Corrigido aqui
-        document.getElementById('box3').style.backgroundImage = `url(${resultImage})`;
-      };
-  
-      img1.src = imageArray[0];
-    }
-  }
-  
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        const img1 = new Image();
 
+        img1.crossOrigin = 'Anonymous';
+
+        img1.onload = function () {
+            canvas.width = img1.width;
+            canvas.height = img1.height;
+
+            ctx.drawImage(img1, 0, 0);
+
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imageData.data;
+
+            const histogram = new Array(256).fill(0);
+
+            for (let i = 0; i < data.length; i += 4) {
+                const avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
+                histogram[Math.round(avg)]++;
+            }
+
+            const max = Math.max(...histogram);
+
+            const histCanvas = document.createElement('canvas');
+            histCanvas.width = 256;
+            histCanvas.height = 200;
+            const histCtx = histCanvas.getContext('2d');
+            histCtx.fillStyle = 'white';
+            histCtx.fillRect(0, 0, histCanvas.width, histCanvas.height);
+            histCtx.strokeStyle = 'black';
+            histCtx.beginPath();
+
+            for (let j = 0; j < histogram.length; j++) {
+                const normalizedValue = (histogram[j] / max) * histCanvas.height;
+                histCtx.lineTo(j, histCanvas.height - normalizedValue);
+            }
+
+            histCtx.stroke();
+
+            const resultImage = histCanvas.toDataURL(); // Corrigido aqui
+            document.getElementById('box3').style.backgroundImage = `url(${resultImage})`;
+        };
+
+        img1.src = imageArray[0];
+    }
+}
 
 function blendImages() {
     if (imageArray.length === 2) {
@@ -342,13 +340,37 @@ function blendImages() {
                     canvas.width = img1.width;
                     canvas.height = img1.height;
 
+                    // Desenhar a primeira imagem no canvas
                     ctx.drawImage(img1, 0, 0);
-                    ctx.globalAlpha = 0.5; // Ajuste o valor de alfa para blending
+
+                    // Obter os dados de imagem da primeira imagem
+                    const imageData1 = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                    const data1 = imageData1.data;
+
+                    // Desenhar a segunda imagem no canvas
                     ctx.drawImage(img2, 0, 0);
 
-                    const imageData = canvas.toDataURL();
-                    resultImage = imageData;
-                    document.getElementById('box3').style.backgroundImage = `url(${imageData})`;
+                    // Obter os dados de imagem da segunda imagem
+                    const imageData2 = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                    const data2 = imageData2.data;
+
+                    // Somar os valores dos pixels das duas imagens
+                    for (let i = 0; i < data1.length; i += 4) {
+                        data1[i] += data2[i]; // Componente vermelha
+                        data1[i + 1] += data2[i + 1]; // Componente verde
+                        data1[i + 2] += data2[i + 2]; // Componente azul
+                        // Não alterar a componente alfa
+                    }
+
+                    // Colocar os dados de imagem resultantes no canvas
+                    ctx.putImageData(imageData1, 0, 0);
+
+                    // Obter a imagem resultante como um Data URL
+                    const resultImageData = canvas.toDataURL();
+
+                    // Definir a imagem resultante como fundo da div 'box3'
+                    resultImage = resultImageData;
+                    document.getElementById('box3').style.backgroundImage = `url(${resultImageData})`;
                 } else {
                     alert('As imagens não têm a mesma dimensão. Impossível combinar.');
                 }
@@ -360,7 +382,6 @@ function blendImages() {
         img1.src = imageArray[0];
     }
 }
-
 
 function saveImage() {
     const box3 = document.getElementById('box3');
