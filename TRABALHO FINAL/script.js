@@ -1,400 +1,86 @@
-let imageArray = [];
-let resultImage = null;
+function loadImage(event, boxId, canvasId) {
+  const file = event.target.files[0];
+  if (!file) return;
 
-function loadFirstImage() {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = '.png, .jpg, .jpeg, .bmp, .tif, .tiff';
+  const reader = new FileReader();
+  reader.onload = function(e) {
+      const img = new Image();
+      img.onload = function() {
+          const canvas = document.getElementById(canvasId);
+          const context = canvas.getContext('2d');
+          const box = document.getElementById(boxId);
 
-    input.onchange = function (e) {
-        const file = e.target.files[0];
-        const reader = new FileReader();
+          // Redimensionar a imagem para caber no box
+          const boxWidth = box.clientWidth;
+          const boxHeight = box.clientHeight;
+          const scale = Math.min(boxWidth / img.width, boxHeight / img.height);
+          const width = img.width * scale;
+          const height = img.height * scale;
 
-        reader.readAsDataURL(file);
-
-        reader.onload = readerEvent => {
-            const content = readerEvent.target.result;
-
-            document.getElementById('box1').style.backgroundImage = `url(${content})`;
-            imageArray[0] = content;
-        };
-    };
-
-    input.click();
+          canvas.width = width;
+          canvas.height = height;
+          context.drawImage(img, 0, 0, width, height);
+          box.style.backgroundImage = `url(${canvas.toDataURL()})`;
+      };
+      img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
 }
 
-function loadSecondImage() {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = '.png, .jpg, .jpeg, .bmp, .tif, .tiff';
-
-    input.onchange = function (e) {
-        const file = e.target.files[0];
-        const reader = new FileReader();
-
-        reader.readAsDataURL(file);
-
-        reader.onload = readerEvent => {
-            const content = readerEvent.target.result;
-
-            document.getElementById('box2').style.backgroundImage = `url(${content})`;
-            imageArray[1] = content;
-        };
-    };
-
-    input.click();
-}
-
-function sumImagesBoxes() {
-    if (imageArray.length === 2) {
-        const img1 = new Image();
-        const img2 = new Image();
-
-        img1.crossOrigin = 'Anonymous';
-        img2.crossOrigin = 'Anonymous';
-
-        img1.onload = function () {
-            img2.onload = function () {
-                if (img1.width === img2.width && img1.height === img2.height) {
-                    const canvas = document.createElement('canvas');
-                    const ctx = canvas.getContext('2d');
-
-                    canvas.width = img1.width;
-                    canvas.height = img1.height;
-
-                    ctx.drawImage(img1, 0, 0);
-                    ctx.globalAlpha = 0.5;
-                    ctx.drawImage(img2, 0, 0);
-
-                    const imageData = canvas.toDataURL();
-                    resultImage = imageData;
-                    document.getElementById('box3').style.backgroundImage = `url(${imageData})`;
-                } else {
-                    alert('As imagens não têm a mesma dimensão. Impossível somar.');
-                }
-            };
-
-            img2.src = imageArray[1];
-        };
-
-        img1.src = imageArray[0];
-    }
-}
-
-function applyNegativeEffect() {
-    if (imageArray.length >= 1) {
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        const img1 = new Image();
-
-        img1.crossOrigin = 'Anonymous';
-
-        img1.onload = function () {
-            canvas.width = img1.width;
-            canvas.height = img1.height;
-
-            ctx.drawImage(img1, 0, 0);
-
-            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            const data = imageData.data;
-
-            for (let i = 0; i < data.length; i += 4) {
-                data[i] = 255 - data[i];
-                data[i + 1] = 255 - data[i + 1];
-                data[i + 2] = 255 - data[i + 2];
-            }
-
-            ctx.putImageData(imageData, 0, 0);
-            const resultImageData = canvas.toDataURL();
-            resultImage = resultImageData;
-            document.getElementById('box3').style.backgroundImage = `url(${resultImageData})`;
-        };
-
-        img1.src = imageArray[0];
-    }
-}
-
-
-function concatenateImages() {
-    if (imageArray.length === 2) {
-        const img1 = new Image();
-        const img2 = new Image();
-
-        img1.crossOrigin = 'Anonymous';
-        img2.crossOrigin = 'Anonymous';
-
-        img1.onload = function () {
-            img2.onload = function () {
-                if (img1.width === img2.width && img1.height === img2.height) {
-                    const canvas = document.createElement('canvas');
-                    const ctx = canvas.getContext('2d');
-
-                    canvas.width = img1.width * 2;
-                    canvas.height = img1.height;
-
-                    ctx.drawImage(img1, 0, 0);
-                    ctx.drawImage(img2, img1.width, 0);
-
-                    const imageData = canvas.toDataURL();
-                    resultImage = imageData;
-                    document.getElementById('box3').style.backgroundImage = `url(${imageData})`;
-                } else {
-                    alert('As imagens não têm a mesma dimensão. Impossível concatenar.');
-                }
-            };
-
-            img2.src = imageArray[1];
-        };
-
-        img1.src = imageArray[0];
-    }
-}
-
-function flipImageLR() {
-    if (imageArray.length >= 1) {
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        const img1 = new Image();
-
-        img1.crossOrigin = 'Anonymous';
-
-        img1.onload = function () {
-            canvas.width = img1.width;
-            canvas.height = img1.height;
-
-            ctx.translate(canvas.width, 0);
-            ctx.scale(-1, 1);
-            ctx.drawImage(img1, 0, 0);
-
-            const resultImageData = canvas.toDataURL();
-            resultImage = resultImageData;
-            document.getElementById('box3').style.backgroundImage = `url(${resultImageData})`;
-        };
-
-        img1.src = imageArray[0];
-    }
-}
-
-
-function flipImageUD() {
-    if (imageArray.length >= 1) {
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        const img1 = new Image();
-
-        img1.crossOrigin = 'Anonymous';
-
-        img1.onload = function () {
-            canvas.width = img1.width;
-            canvas.height = img1.height;
-
-            ctx.translate(0, canvas.height);
-            ctx.scale(1, -1);
-            ctx.drawImage(img1, 0, 0);
-
-            const resultImageData = canvas.toDataURL();
-            resultImage = resultImageData;
-            document.getElementById('box3').style.backgroundImage = `url(${resultImageData})`;
-        };
-
-        img1.src = imageArray[0];
-    }
-}
-
-function subtractImagesBoxes() {
-    if (imageArray.length === 2) {
-        const img1 = new Image();
-        const img2 = new Image();
-
-        img1.crossOrigin = 'Anonymous';
-        img2.crossOrigin = 'Anonymous';
-
-        img1.onload = function () {
-            img2.onload = function () {
-                if (img1.width === img2.width && img1.height === img2.height) {
-                    const canvas = document.createElement('canvas');
-                    const ctx = canvas.getContext('2d');
-
-                    canvas.width = img1.width;
-                    canvas.height = img1.height;
-
-                    ctx.drawImage(img1, 0, 0);
-                    ctx.globalCompositeOperation = 'difference';
-                    ctx.drawImage(img2, 0, 0);
-
-                    const imageData = canvas.toDataURL();
-                    resultImage = imageData;
-                    document.getElementById('box3').style.backgroundImage = `url(${imageData})`;
-                } else {
-                    alert('As imagens não têm a mesma dimensão. Impossível subtrair.');
-                }
-            };
-
-            img2.src = imageArray[1];
-        };
-
-        img1.src = imageArray[0];
-    }
-}
-
-
-function limiarizacaoImages() {
-    if (imageArray.length >= 1) {
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        const img1 = new Image();
-
-        img1.crossOrigin = 'Anonymous';
-
-        img1.onload = function () {
-            canvas.width = img1.width;
-            canvas.height = img1.height;
-
-            ctx.drawImage(img1, 0, 0);
-
-            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            const data = imageData.data;
-
-            const threshold = 128;
-
-            for (let i = 0; i < data.length; i += 4) {
-                const avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
-                const color = avg > threshold ? 255 : 0;
-                data[i] = data[i + 1] = data[i + 2] = color;
-            }
-
-            ctx.putImageData(imageData, 0, 0);
-            const resultImageData = canvas.toDataURL();
-            resultImage = resultImageData;
-            document.getElementById('box3').style.backgroundImage = `url(${resultImageData})`;
-        };
-
-        img1.src = imageArray[0];
-    }
-}
-
-function histogramaImages() {
-    if (imageArray.length >= 1) {
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        const img1 = new Image();
-
-        img1.crossOrigin = 'Anonymous';
-
-        img1.onload = function () {
-            canvas.width = img1.width;
-            canvas.height = img1.height;
-
-            ctx.drawImage(img1, 0, 0);
-
-            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            const data = imageData.data;
-
-            const histogram = new Array(256).fill(0);
-
-            for (let i = 0; i < data.length; i += 4) {
-                const avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
-                histogram[Math.round(avg)]++;
-            }
-
-            const max = Math.max(...histogram);
-
-            const histCanvas = document.createElement('canvas');
-            histCanvas.width = 256;
-            histCanvas.height = 200;
-            const histCtx = histCanvas.getContext('2d');
-            histCtx.fillStyle = 'white';
-            histCtx.fillRect(0, 0, histCanvas.width, histCanvas.height);
-            histCtx.strokeStyle = 'black';
-            histCtx.beginPath();
-
-            for (let j = 0; j < histogram.length; j++) {
-                const normalizedValue = (histogram[j] / max) * histCanvas.height;
-                histCtx.lineTo(j, histCanvas.height - normalizedValue);
-            }
-
-            histCtx.stroke();
-
-            const resultImage = histCanvas.toDataURL(); // Corrigido aqui
-            document.getElementById('box3').style.backgroundImage = `url(${resultImage})`;
-        };
-
-        img1.src = imageArray[0];
-    }
-}
-
-function blendImages() {
-    if (imageArray.length === 2) {
-        const img1 = new Image();
-        const img2 = new Image();
-
-        img1.crossOrigin = 'Anonymous';
-        img2.crossOrigin = 'Anonymous';
-
-        img1.onload = function () {
-            img2.onload = function () {
-                if (img1.width === img2.width && img1.height === img2.height) {
-                    const canvas = document.createElement('canvas');
-                    const ctx = canvas.getContext('2d');
-
-                    canvas.width = img1.width;
-                    canvas.height = img1.height;
-
-                    // Desenhar a primeira imagem no canvas
-                    ctx.drawImage(img1, 0, 0);
-
-                    // Obter os dados de imagem da primeira imagem
-                    const imageData1 = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                    const data1 = imageData1.data;
-
-                    // Desenhar a segunda imagem no canvas
-                    ctx.drawImage(img2, 0, 0);
-
-                    // Obter os dados de imagem da segunda imagem
-                    const imageData2 = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                    const data2 = imageData2.data;
-
-                    // Somar os valores dos pixels das duas imagens
-                    for (let i = 0; i < data1.length; i += 4) {
-                        data1[i] += data2[i]; // Componente vermelha
-                        data1[i + 1] += data2[i + 1]; // Componente verde
-                        data1[i + 2] += data2[i + 2]; // Componente azul
-                        // Não alterar a componente alfa
-                    }
-
-                    // Colocar os dados de imagem resultantes no canvas
-                    ctx.putImageData(imageData1, 0, 0);
-
-                    // Obter a imagem resultante como um Data URL
-                    const resultImageData = canvas.toDataURL();
-
-                    // Definir a imagem resultante como fundo da div 'box3'
-                    resultImage = resultImageData;
-                    document.getElementById('box3').style.backgroundImage = `url(${resultImageData})`;
-                } else {
-                    alert('As imagens não têm a mesma dimensão. Impossível combinar.');
-                }
-            };
-
-            img2.src = imageArray[1];
-        };
-
-        img1.src = imageArray[0];
-    }
+document.getElementById('upload1').addEventListener('change', function(event) {
+  loadImage(event, 'box1', 'canvas1');
+});
+
+document.getElementById('upload2').addEventListener('change', function(event) {
+  loadImage(event, 'box2', 'canvas2');
+});
+
+function addImages() {
+  const canvas1 = document.getElementById('canvas1');
+  const canvas2 = document.getElementById('canvas2');
+  const box3 = document.getElementById('box3');
+
+  if (canvas1.width === 0 || canvas2.width === 0) {
+      alert('Ambas as imagens devem ser carregadas.');
+      return;
+  }
+
+  const width = Math.min(canvas1.width, canvas2.width);
+  const height = Math.min(canvas1.height, canvas2.height);
+
+  const resultCanvas = document.createElement('canvas');
+  resultCanvas.width = width;
+  resultCanvas.height = height;
+  const resultContext = resultCanvas.getContext('2d');
+
+  const context1 = canvas1.getContext('2d');
+  const context2 = canvas2.getContext('2d');
+
+  const imageData1 = context1.getImageData(0, 0, width, height);
+  const imageData2 = context2.getImageData(0, 0, width, height);
+  const resultImageData = resultContext.createImageData(width, height);
+
+  for (let i = 0; i < resultImageData.data.length; i += 4) {
+      resultImageData.data[i] = Math.min(255, imageData1.data[i] + imageData2.data[i]);     // Red
+      resultImageData.data[i + 1] = Math.min(255, imageData1.data[i + 1] + imageData2.data[i + 1]); // Green
+      resultImageData.data[i + 2] = Math.min(255, imageData1.data[i + 2] + imageData2.data[i + 2]); // Blue
+      resultImageData.data[i + 3] = 255; // Alpha
+  }
+
+  resultContext.putImageData(resultImageData, 0, 0);
+  box3.style.backgroundImage = `url(${resultCanvas.toDataURL()})`;
 }
 
 function saveImage() {
-    const box3 = document.getElementById('box3');
-    const backgroundImage = box3.style.backgroundImage;
-
-    if (backgroundImage) {
-        const image = new Image();
-        image.src = backgroundImage.slice(5, -2);
-        const link = document.createElement('a');
-        link.href = image.src;
-        link.download = 'imagem_salva.png';
-        link.click();
-    } else {
-        alert('Nenhuma imagem para salvar.');
-    }
+  const box3 = document.getElementById('box3');
+  const background = box3.style.backgroundImage;
+  if (background) {
+      const imageData = background.slice(5, -2);
+      const a = document.createElement('a');
+      a.href = imageData;
+      a.download = 'resultado.png';
+      a.click();
+  } else {
+      alert('Nenhuma imagem para salvar!');
+  }
 }
