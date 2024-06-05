@@ -8,56 +8,62 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
 </head>
 <body>
-  <div class="container">
-    <h1>Operações Aritméticas e Lógicas de Imagens</h1>
-    <div class="image-container">
-        <div class="sidebar1">
-            <h2 style="font-size: 25px;">Imagem a</h2>
-            <div class="box" id="box1"></div>
-            <input type="file" id="upload1" accept="image/*">
-            <canvas id="canvas1" style="display:none;"></canvas>
-      </div>
-
-  <div class="sidebar2">
-    <h2 style="font-size: 25px;">Imagem B</h2>
-    <div class="box" id="box2"></div>
-    <input type="file" id="upload2" accept="image/*">
-    <canvas id="canvas2" style="display:none;"></canvas>
-  </div>
-
-  <div class="result">
-    <h2 style="font-size: 25px;">Resultado</h2>
-    <div class="box-result" id="box3"></div>
-    <button class="button save" onclick="saveImage()">Salvar imagem</button>
-  </div>
-</div>
-
-
-  <div class="button-column">
-    <button class="button sum" onclick="sumImagesBoxes()">Soma</button>
-    <button class="button subtract" onclick="subtractImagesBoxes()">Subtração</button>
-    <button class="button multi" onclick="multiImagesBoxes()">Multiplicação</button>
-    <button class="button div" onclick="divImagesBoxes()">Divisão</button>
-    <button class="button negative" onclick="applyNegativeEffect()">Negativo</button>
-    <button class="button fliplr" onclick="flipImageLR()">FlipLR</button>
-    <button class="button flipud" onclick="flipImageUD()">FlipUD</button>
-    <button class="button concatenate" onclick="concatenateImages()">Concatenar</button>
-    <button class="button blend" onclick="blendImages()">Combinação Linear</button>
-    <button class="button limiarizacao" onclick="limiarizacaoImages()">Limiarização</button>
-    <button class="button histograma" onclick="histogramaImages()">Histograma</button>
-    <button class="button and" onclick="andImagesBoxes()">AND</button>
-    <button class="button or" onclick="orImagesBoxes()">OR</button>
-    <button class="button not" onclick="notImagesBoxes()">NOT</button>
-    <button class="button xor" onclick="xorImagesBoxes()">XOR</button>
-    <button class="button blending" onclick="blendImagesBoxes()">Blending</button>
-    <button class="button minimo" onclick="minImagesBoxes()">MÍNIMO</button>
-    <button class="button maximo" onclick="maxImagesBoxes()">MAXIMO</button>
-    <button class="button media" onclick="mediaImagesBoxes()">MEDIA</button>
-    <button class="button mediana" onclick="medianaImagesBoxes()">MEDIANA</button>
-    <button class="button order" onclick="ordemImagesBoxes()">ORDEM</button>
-  </div>
-</div>
-
-<script src="script.js"></script>
+    <div class="container">
+        <h1>Operações Aritméticas e Lógicas de Imagens</h1>
+        <div class="image-container">
+            <div class="sidebar1">
+                <h2 style="font-size: 25px;">Imagem a</h2>
+                <div class="box" id="box1"></div>
+                <input type="file" id="upload1" accept="image/*">
+                <canvas id="canvas1" style="display:none;"></canvas>
+            </div>
+            <div class="sidebar2">
+                <h2 style="font-size: 25px;">Imagem B</h2>
+                <div class="box" id="box2"></div>
+                <input type="file" id="upload2" accept="image/*">
+                <canvas id="canvas2" style="display:none;"></canvas>
+            </div>
+            <div class="result">
+                <h2 style="font-size: 25px;">Resultado</h2>
+                <div class="box-result" id="box3"></div>
+                <button class="button save" onclick="saveImage()">Salvar imagem</button>
+            </div>
+        </div>
+        <div class="button-column">
+            <button class="button sum" onclick="sumImagesBoxes()">Soma</button>
+            <button class="button subtract" onclick="subtractImagesBoxes()">Subtração</button>
+            <button class="button multi" onclick="multiImagesBoxes()">Multiplicação</button>
+            <button class="button div" onclick="divImagesBoxes()">Divisão</button>
+            <button class="button negative" onclick="applyNegativeEffect()">Negativo</button>
+            <button class="button fliplr" onclick="flipImageLR()">FlipLR</button>
+            <button class="button flipud" onclick="flipImageUD()">FlipUD</button>
+            <button class="button concatenate" onclick="concatenateImages()">Concatenar</button>
+            <button class="button blend" onclick="blendImages()">Combinação Linear</button>
+            <button class="button limiarizacao" onclick="limiarizacaoImages()">Limiarização</button>
+            <button class="button histograma" onclick="histogramaImages()">Histograma</button>
+            <button class="button and" onclick="andImagesBoxes()">AND</button>
+            <button class="button or" onclick="orImagesBoxes()">OR</button>
+            <button class="button not" onclick="notImagesBoxes()">NOT</button>
+            <button class="button xor" onclick="xorImagesBoxes()">XOR</button>
+            <button class="button minimo" onclick="applyMinimumFilte()">MÍNIMO</button>
+            <button class="button maximo" onclick="applyMaximumFilter()">MAXIMO</button>
+            <button class="button media" onclick="applyAverageFilter()">MEDIA</button>
+            <button class="button mediana" onclick="applyMedianFilter()">MEDIANA</button>
+            <button class="button order" onclick="applyOrderFilter()">ORDEM</button>
+            <button class="button median-filter" onclick="applysuavizacaoFilter()">Suavização Conservativa</button>
+            <button class="button gaussian-blur" onclick="applyGaussianBlur()">Filtro Gaussiano</button>
+            <button class="button prewitt-filter" onclick="applyPrewittFilter()">Filtro Prewitt</button>
+            <button class="button sobel-filter" onclick="applySobelFilter()">Filtro Sobel</button>
+            <button class="button laplacian-filter" onclick="applyLaplacianFilter()">Filtro Laplaciano</button>
+            <button class="button dilation" onclick="applyDilation()">Dilatação</button>
+            <button class="button erosion" onclick="applyErosion()">Erosão</button>
+            <button class="button opening" onclick="applyOpening()">Abertura</button>
+            <button class="button closing" onclick="applyClosing()">Fechamento</button>
+            <button class="button contour" onclick="applyContour()">Contorno</button>
+            
+           
+        </div>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
