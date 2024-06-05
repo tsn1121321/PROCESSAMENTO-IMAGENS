@@ -17,7 +17,7 @@ function loadImage(file, canvasId, boxId) {
           const fixedHeight = 300;
           canvas.width = fixedWidth;
           canvas.height = fixedHeight;
-          ctx.clearRect(0, 0, fixedWidth, fixedHeight); // Clear canvas before drawing
+          ctx.clearRect(0, 0, fixedWidth, fixedHeight);
           ctx.drawImage(img, 0, 0, fixedWidth, fixedHeight);
           document.getElementById(boxId).style.backgroundImage = `url(${canvas.toDataURL()})`;
       };
@@ -27,7 +27,6 @@ function loadImage(file, canvasId, boxId) {
 }
 
 function sumImagesBoxes() {
-  document.getElementById('box3').innerHTML = "";
   const canvas1 = document.getElementById('canvas1');
   const ctx1 = canvas1.getContext('2d');
   const imageData1 = ctx1.getImageData(0, 0, canvas1.width, canvas1.height);
@@ -41,7 +40,7 @@ function sumImagesBoxes() {
 
   if (canvas1.width !== fixedWidth || canvas1.height !== fixedHeight ||
       canvas2.width !== fixedWidth || canvas2.height !== fixedHeight) {
-      alert("Erro ao redimensionar as imagens!");
+      alert("Carregue as duas imagens!");
       return;
   }
 
@@ -63,7 +62,6 @@ function sumImagesBoxes() {
 }
 
 function subtractImagesBoxes() {
-  document.getElementById('box3').innerHTML = "";
   const canvas1 = document.getElementById('canvas1');
   const ctx1 = canvas1.getContext('2d');
   const imageData1 = ctx1.getImageData(0, 0, canvas1.width, canvas1.height);
@@ -77,7 +75,7 @@ function subtractImagesBoxes() {
 
   if (canvas1.width !== fixedWidth || canvas1.height !== fixedHeight ||
       canvas2.width !== fixedWidth || canvas2.height !== fixedHeight) {
-      alert("Erro ao redimensionar as imagens!");
+      alert("Carregue as duas imagens!");
       return;
   }
 
@@ -99,7 +97,6 @@ function subtractImagesBoxes() {
 }
 
 function multiImagesBoxes() {
-  document.getElementById('box3').innerHTML = "";
   const canvas1 = document.getElementById('canvas1');
   const ctx1 = canvas1.getContext('2d');
   const imageData1 = ctx1.getImageData(0, 0, canvas1.width, canvas1.height);
@@ -113,7 +110,7 @@ function multiImagesBoxes() {
 
   if (canvas1.width !== fixedWidth || canvas1.height !== fixedHeight ||
       canvas2.width !== fixedWidth || canvas2.height !== fixedHeight) {
-      alert("Erro ao redimensionar as imagens!");
+      alert("Carregue as duas imagens!");
       return;
   }
 
@@ -135,7 +132,6 @@ function multiImagesBoxes() {
 }
 
 function divImagesBoxes() {
-  document.getElementById('box3').innerHTML = "";
   const canvas1 = document.getElementById('canvas1');
   const ctx1 = canvas1.getContext('2d');
   const imageData1 = ctx1.getImageData(0, 0, canvas1.width, canvas1.height);
@@ -149,7 +145,7 @@ function divImagesBoxes() {
 
   if (canvas1.width !== fixedWidth || canvas1.height !== fixedHeight ||
       canvas2.width !== fixedWidth || canvas2.height !== fixedHeight) {
-      alert("Erro ao redimensionar as imagens!");
+      alert("Carregue as duas imagens!");
       return;
   }
 
@@ -171,7 +167,6 @@ function divImagesBoxes() {
 }
 
 function applyNegativeEffect() {
-  document.getElementById('box3').innerHTML = "";
   const canvas = document.getElementById('canvas1');
   const ctx = canvas.getContext('2d');
   const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
@@ -190,7 +185,6 @@ function applyNegativeEffect() {
 }
 
 function flipImageLR() {
-  document.getElementById('box3').innerHTML = "";
   const canvas = document.getElementById('canvas1');
   const ctx = canvas.getContext('2d');
   const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
@@ -206,7 +200,6 @@ function flipImageLR() {
 }
 
 function flipImageUD() {
-  document.getElementById('box3').innerHTML = "";
   const canvas = document.getElementById('canvas1');
   const ctx = canvas.getContext('2d');
   const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
@@ -223,7 +216,6 @@ function flipImageUD() {
 
 
 function concatenateImages() {
-  document.getElementById('box3').innerHTML = "";
   const canvas1 = document.getElementById('canvas1');
   const ctx1 = canvas1.getContext('2d');
   const imageData1 = ctx1.getImageData(0, 0, canvas1.width, canvas1.height);
@@ -255,7 +247,6 @@ function concatenateImages() {
 }
 
 function blendImages() {
-  document.getElementById('box3').innerHTML = "";
   const canvas1 = document.getElementById('canvas1');
   const ctx1 = canvas1.getContext('2d');
   const imageData1 = ctx1.getImageData(0, 0, canvas1.width, canvas1.height);
@@ -294,7 +285,6 @@ function blendImages() {
 }
 
 function limiarizacaoImages() {
-  document.getElementById('box3').innerHTML = "";
   const canvas = document.getElementById('canvas1');
   const ctx = canvas.getContext('2d');
   const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
@@ -319,7 +309,6 @@ function limiarizacaoImages() {
 }
 
 function histogramaImages() {
-  document.getElementById('box3').innerHTML = "";
   const canvas = document.getElementById('canvas1');
   const ctx = canvas.getContext('2d');
   const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
@@ -774,7 +763,7 @@ function applysuavizacaoFilter() {
   const ctx = canvas.getContext('2d');
   const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
-  const newData = suavizacaoFilter(imageData, canvas.width, canvas.height);
+  const newData = medianFilter(imageData, canvas.width, canvas.height);
 
   ctx.putImageData(new ImageData(newData, canvas.width, canvas.height), 0, 0);
   document.getElementById('box3').style.backgroundImage = `url(${canvas.toDataURL()})`;
@@ -1070,11 +1059,6 @@ function subtractImageData(imageData1, imageData2) {
 
   return newData;
 }
-
- 
-
-
-
 
 function saveImage() {
   const box3 = document.getElementById('box3');
