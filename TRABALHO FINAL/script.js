@@ -188,14 +188,26 @@ function flipImageLR() {
   const canvas = document.getElementById('canvas1');
   const ctx = canvas.getContext('2d');
   const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+  // Criação do canvas temporário
   const tempCanvas = document.createElement('canvas');
   tempCanvas.width = canvas.width;
   tempCanvas.height = canvas.height;
   const tempCtx = tempCanvas.getContext('2d');
+
+  // Transferência dos dados da imagem para o canvas temporário
   tempCtx.putImageData(imageData, 0, 0);
+
+  // Limpeza do canvas original
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Escala horizontal invertida
+  ctx.save(); // Salva o estado atual do contexto
   ctx.scale(-1, 1);
-  ctx.drawImage(tempCanvas, -canvas.width, 0);
+  ctx.drawImage(tempCanvas, -canvas.width, 0); // Desenho da imagem espelhada horizontalmente
+  ctx.restore(); // Restaura o estado anterior do contexto
+
+  // Definição da imagem de fundo do elemento 'box3'
   document.getElementById('box3').style.backgroundImage = `url(${canvas.toDataURL()})`;
 }
 
@@ -203,16 +215,29 @@ function flipImageUD() {
   const canvas = document.getElementById('canvas1');
   const ctx = canvas.getContext('2d');
   const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+  // Criação do canvas temporário
   const tempCanvas = document.createElement('canvas');
   tempCanvas.width = canvas.width;
   tempCanvas.height = canvas.height;
   const tempCtx = tempCanvas.getContext('2d');
+
+  // Transferência dos dados da imagem para o canvas temporário
   tempCtx.putImageData(imageData, 0, 0);
+
+  // Limpeza do canvas original
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.scale(1, -1); // Invertendo o eixo y
-  ctx.drawImage(tempCanvas, 0, -canvas.height); // Desenhando a imagem invertida
+
+  // Escala vertical invertida
+  ctx.save(); // Salva o estado atual do contexto
+  ctx.scale(1, -1);
+  ctx.drawImage(tempCanvas, 0, -canvas.height); // Desenho da imagem espelhada verticalmente
+  ctx.restore(); // Restaura o estado anterior do contexto
+
+  // Definição da imagem de fundo do elemento 'box3'
   document.getElementById('box3').style.backgroundImage = `url(${canvas.toDataURL()})`;
 }
+
 
 
 function concatenateImages() {
@@ -337,11 +362,6 @@ function histogramaImages() {
       histogramCtx.fillStyle = '#000000';
       histogramCtx.fillRect(i, histogramCanvas.height - height, 1, height);
   }
-
-  // Exibe o histograma no console
-  console.log(histogram);
-
-  // Exibe o histograma no HTML
   document.getElementById('box3').style.backgroundImage = `url(${histogramCanvas.toDataURL()})`;
 }
 
@@ -366,16 +386,7 @@ function applyBinaryThreshold(imageData, threshold) {
   }
 }
 
-function applyNOT(imageData) {
-  // Aplica a operação lógica NOT (NÃO) na imagem binária
-  for (let i = 0; i < imageData.data.length; i += 4) {
-      imageData.data[i] = 255 - imageData.data[i];
-      imageData.data[i + 1] = 255 - imageData.data[i + 1];
-      imageData.data[i + 2] = 255 - imageData.data[i + 2];
-  }
-}
-
-function andImagesBoxes() {
+function andImages() {
   const canvas1 = document.getElementById('canvas1');
   const ctx1 = canvas1.getContext('2d');
   const imageData1 = ctx1.getImageData(0, 0, canvas1.width, canvas1.height);
@@ -393,9 +404,12 @@ function andImagesBoxes() {
       return;
   }
 
-  if (!checkBinary(imageData1) || !checkBinary(imageData2)) {
-      alert("As imagens não são binárias. Por favor, converta-as para binárias antes de aplicar as operações lógicas!");
-      return;
+  // Verifica se as imagens são binárias e converte, se necessário
+  if (!checkBinary(imageData1)) {
+    applyBinaryThreshold(imageData1, 128); // Aplicando um limiar de 128 para converter para binário
+  }
+  if (!checkBinary(imageData2)) {
+    applyBinaryThreshold(imageData2, 128); // Aplicando um limiar de 128 para converter para binário
   }
 
   const canvasResult = document.createElement('canvas');
@@ -405,7 +419,7 @@ function andImagesBoxes() {
   const imageDataResult = ctxResult.createImageData(fixedWidth, fixedHeight);
 
   for (let i = 0; i < imageData1.data.length; i += 4) {
-      // Aplica a operação lógica AND (E) entre os pixels das duas imagens
+      // Aplica a operação lógica AND (E) entre os pixels das duas imagens binárias
       imageDataResult.data[i] = imageData1.data[i] & imageData2.data[i];
       imageDataResult.data[i + 1] = imageData1.data[i + 1] & imageData2.data[i + 1];
       imageDataResult.data[i + 2] = imageData1.data[i + 2] & imageData2.data[i + 2];
@@ -416,7 +430,7 @@ function andImagesBoxes() {
   document.getElementById('box3').style.backgroundImage = `url(${canvasResult.toDataURL()})`;
 }
 
-function orImagesBoxes() {
+function orImages() {
   const canvas1 = document.getElementById('canvas1');
   const ctx1 = canvas1.getContext('2d');
   const imageData1 = ctx1.getImageData(0, 0, canvas1.width, canvas1.height);
@@ -434,9 +448,12 @@ function orImagesBoxes() {
       return;
   }
 
-  if (!checkBinary(imageData1) || !checkBinary(imageData2)) {
-      alert("As imagens não são binárias. Por favor, converta-as para binárias antes de aplicar as operações lógicas!");
-      return;
+  // Verifica se as imagens são binárias e converte, se necessário
+  if (!checkBinary(imageData1)) {
+    applyBinaryThreshold(imageData1, 128); // Aplicando um limiar de 128 para converter para binário
+  }
+  if (!checkBinary(imageData2)) {
+    applyBinaryThreshold(imageData2, 128); // Aplicando um limiar de 128 para converter para binário
   }
 
   const canvasResult = document.createElement('canvas');
@@ -446,7 +463,7 @@ function orImagesBoxes() {
   const imageDataResult = ctxResult.createImageData(fixedWidth, fixedHeight);
 
   for (let i = 0; i < imageData1.data.length; i += 4) {
-      // Aplica a operação lógica OR (OU) entre os pixels das duas imagens
+      // Aplica a operação lógica OR (OU) entre os pixels das duas imagens binárias
       imageDataResult.data[i] = imageData1.data[i] | imageData2.data[i];
       imageDataResult.data[i + 1] = imageData1.data[i + 1] | imageData2.data[i + 1];
       imageDataResult.data[i + 2] = imageData1.data[i + 2] | imageData2.data[i + 2];
@@ -457,31 +474,59 @@ function orImagesBoxes() {
   document.getElementById('box3').style.backgroundImage = `url(${canvasResult.toDataURL()})`;
 }
 
-function notImagesBoxes() {
+function applyNOT(imageData) {
+  const newData = new Uint8ClampedArray(imageData.data.length);
+
+  for (let i = 0; i < imageData.data.length; i += 4) {
+    newData[i] = 255 - imageData.data[i];       // Inverte o valor de Red
+    newData[i + 1] = 255 - imageData.data[i + 1]; // Inverte o valor de Green
+    newData[i + 2] = 255 - imageData.data[i + 2]; // Inverte o valor de Blue
+    newData[i + 3] = imageData.data[i + 3];       // Mantém o valor de Alpha (transparência)
+  }
+
+  return newData;
+}
+
+
+function notImages() {
   const canvas = document.getElementById('canvas1');
+  if (!canvas) {
+    console.error('Canvas element not found');
+    return;
+  }
+
   const ctx = canvas.getContext('2d');
+  if (!ctx) {
+    console.error('2D context not available');
+    return;
+  }
+
   const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-
-  const fixedWidth = 300;
-  const fixedHeight = 300;
-
-  if (canvas.width !== fixedWidth || canvas.height !== fixedHeight) {
-      alert("As imagens não têm as mesmas dimensões (MxN)!");
-      return;
+  if (!imageData) {
+    console.error('Failed to get image data');
+    return;
   }
 
+  // Verifica se a imagem é binária e converte, se necessário
   if (!checkBinary(imageData)) {
-      alert("A imagem não é binária. Por favor, converta-a para binária antes de aplicar a operação lógica NOT!");
-      return;
+    applyBinaryThreshold(imageData, 128); // Aplicando um limiar de 128 para converter para binário
   }
 
-  applyNOT(imageData);
+  const newData = applyNOT(imageData);
 
-  ctx.putImageData(imageData, 0, 0);
+  // Cria um novo Uint8ClampedArray para o novo imageData
+  const newImageData = new ImageData(new Uint8ClampedArray(newData), canvas.width, canvas.height);
+
+  // Define o novo imageData no contexto do canvas
+  ctx.putImageData(newImageData, 0, 0);
+
+  // Atualiza o estilo de fundo do elemento com ID 'box3' com a nova imagem
   document.getElementById('box3').style.backgroundImage = `url(${canvas.toDataURL()})`;
 }
 
-function xorImagesBoxes() {
+
+
+function xorImages() {
   const canvas1 = document.getElementById('canvas1');
   const ctx1 = canvas1.getContext('2d');
   const imageData1 = ctx1.getImageData(0, 0, canvas1.width, canvas1.height);
@@ -499,9 +544,12 @@ function xorImagesBoxes() {
       return;
   }
 
-  if (!checkBinary(imageData1) || !checkBinary(imageData2)) {
-      alert("As imagens não são binárias. Por favor, converta-as para binárias antes de aplicar as operações lógicas!");
-      return;
+  // Verifica se as imagens são binárias e converte, se necessário
+  if (!checkBinary(imageData1)) {
+    applyBinaryThreshold(imageData1, 128); // Aplicando um limiar de 128 para converter para binário
+  }
+  if (!checkBinary(imageData2)) {
+    applyBinaryThreshold(imageData2, 128); // Aplicando um limiar de 128 para converter para binário
   }
 
   const canvasResult = document.createElement('canvas');
@@ -511,7 +559,7 @@ function xorImagesBoxes() {
   const imageDataResult = ctxResult.createImageData(fixedWidth, fixedHeight);
 
   for (let i = 0; i < imageData1.data.length; i += 4) {
-      // Aplica a operação lógica XOR entre os pixels das duas imagens
+      // Aplica a operação lógica XOR entre os pixels das duas imagens binárias
       imageDataResult.data[i] = imageData1.data[i] ^ imageData2.data[i];
       imageDataResult.data[i + 1] = imageData1.data[i + 1] ^ imageData2.data[i + 1];
       imageDataResult.data[i + 2] = imageData1.data[i + 2] ^ imageData2.data[i + 2];
@@ -522,7 +570,8 @@ function xorImagesBoxes() {
   document.getElementById('box3').style.backgroundImage = `url(${canvasResult.toDataURL()})`;
 }
 
-function applyMinimumFilter() {
+
+function minimoImages() {
   const canvas = document.getElementById('canvas1');
   const ctx = canvas.getContext('2d');
   const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
@@ -564,7 +613,7 @@ function minimumFilter(imageData, width, height) {
   return newData;
 }
 
-function applyMaximumFilter() {
+function maximoImages() {
   const canvas = document.getElementById('canvas1');
   const ctx = canvas.getContext('2d');
   const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
@@ -606,7 +655,7 @@ function maximumFilter(imageData, width, height) {
   return newData;
 }
 
-function applyAverageFilter() {
+function mediaImages() {
   const canvas = document.getElementById('canvas1');
   const ctx = canvas.getContext('2d');
   const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
@@ -645,7 +694,7 @@ function averageFilter(imageData, width, height) {
   return newData;
 }
 
-function applyMedianFilter() {
+function medianaImages() {
   const canvas = document.getElementById('canvas1');
   const ctx = canvas.getContext('2d');
   const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
@@ -688,7 +737,7 @@ function medianFilter(imageData, width, height) {
 return newData;
 }
 
-function applyOrderFilter() {
+function ordemImages() {
 const canvas = document.getElementById('canvas1');
 const ctx = canvas.getContext('2d');
 const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
@@ -758,7 +807,7 @@ function medianFilter(imageData, width, height) {
   return newData;
 }
 
-function applysuavizacaoFilter() {
+function suavizacaoImages() {
   const canvas = document.getElementById('canvas1');
   const ctx = canvas.getContext('2d');
   const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
@@ -770,30 +819,30 @@ function applysuavizacaoFilter() {
 }
 
 function gaussianBlur(imageData, width, height) {
-  const newData = new Uint8ClampedArray(imageData.data);
+  const newData = new Uint8ClampedArray(imageData.data.length);
   const weights = [1, 2, 1, 2, 4, 2, 1, 2, 1]; // Filtro gaussiano 3x3
+  const weightSum = weights.reduce((a, b) => a + b, 0);
 
   for (let y = 1; y < height - 1; y++) {
-      for (let x = 1; x < width - 1; x++) {
-          let r = 0,
-              g = 0,
-              b = 0;
-          let weightSum = 0;
-          for (let j = -1; j <= 1; j++) {
-              for (let i = -1; i <= 1; i++) {
-                  const idx = ((y + j) * width + (x + i)) * 4;
-                  const weight = weights[(j + 1) * 3 + (i + 1)];
-                  r += imageData.data[idx] * weight;
-                  g += imageData.data[idx + 1] * weight;
-                  b += imageData.data[idx + 2] * weight;
-                  weightSum += weight;
-              }
-          }
-          const idx = (y * width + x) * 4;
-          newData[idx] = r / weightSum;
-          newData[idx + 1] = g / weightSum;
-          newData[idx + 2] = b / weightSum;
+    for (let x = 1; x < width - 1; x++) {
+      let r = 0, g = 0, b = 0;
+
+      for (let j = -1; j <= 1; j++) {
+        for (let i = -1; i <= 1; i++) {
+          const idx = ((y + j) * width + (x + i)) * 4;
+          const weight = weights[(j + 1) * 3 + (i + 1)];
+          r += imageData.data[idx] * weight;
+          g += imageData.data[idx + 1] * weight;
+          b += imageData.data[idx + 2] * weight;
+        }
       }
+
+      const idx = (y * width + x) * 4;
+      newData[idx] = r / weightSum;
+      newData[idx + 1] = g / weightSum;
+      newData[idx + 2] = b / weightSum;
+      newData[idx + 3] = imageData.data[idx + 3]; // Copiando o valor do alfa
+    }
   }
 
   return newData;
@@ -801,8 +850,22 @@ function gaussianBlur(imageData, width, height) {
 
 function applyGaussianBlur() {
   const canvas = document.getElementById('canvas1');
+  if (!canvas) {
+    console.error('Canvas element not found');
+    return;
+  }
+
   const ctx = canvas.getContext('2d');
+  if (!ctx) {
+    console.error('2D context not available');
+    return;
+  }
+
   const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  if (!imageData) {
+    console.error('Failed to get image data');
+    return;
+  }
 
   const newData = gaussianBlur(imageData, canvas.width, canvas.height);
 
@@ -810,7 +873,7 @@ function applyGaussianBlur() {
   document.getElementById('box3').style.backgroundImage = `url(${canvas.toDataURL()})`;
 }
 
-function applyPrewittFilter() {
+function prewittImages() {
   const canvas = document.getElementById('canvas1');
   const ctx = canvas.getContext('2d');
   const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
@@ -850,7 +913,7 @@ function prewittFilter(imageData, width, height) {
   return newData;
 }
 
-function applySobelFilter() {
+function sobelImages() {
   const canvas = document.getElementById('canvas1');
   const ctx = canvas.getContext('2d');
   const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
@@ -890,7 +953,7 @@ function sobelFilter(imageData, width, height) {
   return newData;
 }
 
-function applyLaplacianFilter() {
+function laplacianoImages() {
   const canvas = document.getElementById('canvas1');
   const ctx = canvas.getContext('2d');
   const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
@@ -926,7 +989,7 @@ function laplacianFilter(imageData, width, height) {
   return newData;
 }
 
-function applyDilation() {
+function dilatacaoImages() {
   const canvas = document.getElementById('canvas1');
   const ctx = canvas.getContext('2d');
   const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
@@ -968,7 +1031,7 @@ function dilation(imageData, width, height) {
   return newData;
 }
 
-function applyErosion() {
+function erosaoImages() {
   const canvas = document.getElementById('canvas1');
   const ctx = canvas.getContext('2d');
   const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
@@ -1010,7 +1073,7 @@ function erosion(imageData, width, height) {
   return newData;
 }
 
-function applyOpening() {
+function aberturaImages() {
   const canvas = document.getElementById('canvas1');
   const ctx = canvas.getContext('2d');
   const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
@@ -1022,7 +1085,7 @@ function applyOpening() {
   document.getElementById('box3').style.backgroundImage = `url(${canvas.toDataURL()})`;
 }
 
-function applyClosing() {
+function fechamentoImages() {
   const canvas = document.getElementById('canvas1');
   const ctx = canvas.getContext('2d');
   const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
@@ -1035,30 +1098,50 @@ function applyClosing() {
   document.getElementById('box3').style.backgroundImage = `url(${canvas.toDataURL()})`;
 }
 
-function applyContour() {
-  const canvas = document.getElementById('canvas1');
-  const ctx = canvas.getContext('2d');
-  const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-
-  const erodedData = erosion(imageData, canvas.width, canvas.height);
-
-  const contourData = subtractImageData(imageData, erodedData);
-
-  ctx.putImageData(new ImageData(contourData, canvas.width, canvas.height), 0, 0);
-  document.getElementById('box3').style.backgroundImage = `url(${canvas.toDataURL()})`;
-}
-
 function subtractImageData(imageData1, imageData2) {
-  const newData = new Uint8ClampedArray(imageData1.data);
+  const width = imageData1.width;
+  const height = imageData1.height;
+  const data1 = imageData1.data;
+  const data2 = imageData2.data;
+  const newData = new Uint8ClampedArray(data1.length);
 
-  for (let i = 0; i < newData.length; i += 4) {
-      newData[i] = Math.abs(imageData1.data[i] - imageData2.data[i]);
-      newData[i + 1] = Math.abs(imageData1.data[i + 1] - imageData2.data[i + 1]);
-      newData[i + 2] = Math.abs(imageData1.data[i + 2] - imageData2.data[i + 2]);
+  for (let i = 0; i < data1.length; i += 4) {
+    newData[i] = Math.abs(data1[i] - data2[i]);       // Red
+    newData[i + 1] = Math.abs(data1[i + 1] - data2[i + 1]); // Green
+    newData[i + 2] = Math.abs(data1[i + 2] - data2[i + 2]); // Blue
+    newData[i + 3] = data1[i + 3]; // Alpha
   }
 
-  return newData;
+  return new ImageData(newData, width, height);
 }
+
+function contornoImages() {
+  const canvas = document.getElementById('canvas1');
+  if (!canvas) {
+    console.error('Canvas element not found');
+    return;
+  }
+
+  const ctx = canvas.getContext('2d');
+  if (!ctx) {
+    console.error('2D context not available');
+    return;
+  }
+
+  const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  if (!imageData) {
+    console.error('Failed to get image data');
+    return;
+  }
+
+  // Aplica filtros ou técnicas para obter duas imagens a serem subtraídas
+  const blurredImageData = gaussianBlur(imageData, canvas.width, canvas.height); // Por exemplo, desfoca a imagem
+  const newImageData = subtractImageData(imageData, new ImageData(blurredImageData, canvas.width, canvas.height));
+
+  ctx.putImageData(newImageData, 0, 0);
+  document.getElementById('box3').style.backgroundImage = `url(${canvas.toDataURL()})`;
+}
+  
 
 function saveImage() {
   const box3 = document.getElementById('box3');
