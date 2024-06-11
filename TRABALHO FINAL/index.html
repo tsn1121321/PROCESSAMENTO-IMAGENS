@@ -35,32 +35,58 @@
             <button class="button subtract" onclick="subtractImagesBoxes()">Subtração</button>
             <button class="button multi" onclick="multiImagesBoxes()">Multiplicação</button>
             <button class="button div" onclick="divImagesBoxes()">Divisão</button>
-            <button class="button negative" onclick="applyNegativeEffect()">Negativo</button>
+        </div>
+
+        <div class="button-column">
+            <button class="button negative" style="background-color: rgb(79, 1, 124);" onclick="applyNegativeEffect()">Negativo</button>
+            <button class="button grayscale" style="background-color: rgb(79, 1, 124);" onclick="convertToGrayscale()">Escala de Cinza</button>
+            <button class="button binary" style="background-color: rgb(79, 1, 124);" onclick="convertToBinary()">Imagem Binária</button>
+            <label for="brightness">Brilho (1-100):</label>
+        <input type="number" id="brightness" name="brightness" min="1" max="100" value="50">
+        <button class="button brightness" onclick="applyBrightness()">Aplicar Brilho</button>
+        </div>
+
+        <div class="button-column">
             <button class="button fliplr" onclick="flipImageLR()">FlipLR</button>
             <button class="button flipud" onclick="flipImageUD()">FlipUD</button>
-            <button class="button concatenate" onclick="concatenateImages()">Concatenar</button>
-            <button class="button blend" onclick="blendImages()">Combinação Linear</button>
-            <button class="button limiarizacao" onclick="limiarizacaoImages()">Limiarização</button>
-            <button class="button histograma" onclick="histogramaImages()">Histograma</button>
+        </div>
+
+        <div class="button-column">
+            <button class="button concatenate" style="background-color: rgb(79, 1, 124);" onclick="concatenateImages()">Concatenar</button>
+            <button class="button blend" style="background-color: rgb(79, 1, 124);" onclick="blendImages()">Combinação Linear</button>
+            <button class="button limiarizacao" style="background-color: rgb(79, 1, 124);" onclick="limiarizacaoImages()">Limiarização</button>
+            <button class="button histograma" style="background-color: rgb(79, 1, 124);" onclick="histogramaImages()">Histograma</button>
+        </div>
+
+        <div class="button-column">
             <button class="button and" onclick="andImages()">AND</button>
             <button class="button or" onclick="orImages()">OR</button>
             <button class="button not" onclick="notImages()">NOT</button>
             <button class="button xor" onclick="xorImages()">XOR</button>
-            <button class="button minimo" onclick="minimoImages()">MÍNIMO</button>
-            <button class="button maximo" onclick="maximoImages()">MAXIMO</button>
-            <button class="button media" onclick="mediaImages()">MEDIA</button>
-            <button class="button mediana" onclick="medianaImages()">MEDIANA</button>
-            <button class="button order" onclick="ordemImages()">ORDEM</button>
+        </div>
+
+        <div class="button-column">
+            <button class="button minimo" style="background-color: rgb(79, 1, 124);" onclick="minimoImages()">MÍNIMO</button>
+            <button class="button maximo" style="background-color: rgb(79, 1, 124);" onclick="maximoImages()">MAXIMO</button>
+            <button class="button media" style="background-color: rgb(79, 1, 124);" onclick="mediaImages()">MEDIA</button>
+            <button class="button mediana" style="background-color: rgb(79, 1, 124);" onclick="medianaImages()">MEDIANA</button>
+            <button class="button order" style="background-color: rgb(79, 1, 124);" onclick="ordemImages()">ORDEM</button>
+        </div>
+
+        <div class="button-column">
             <button class="button median-filter" onclick="suavizacaoImages()">Suavização Conservativa</button>
             <button class="button gaussian-blur" onclick="applyGaussianBlur()">Filtro Gaussiano</button>
             <button class="button prewitt-filter" onclick="prewittImages()">Filtro Prewitt</button>
             <button class="button sobel-filter" onclick="sobelImages()">Filtro Sobel</button>
             <button class="button laplacian-filter" onclick="laplacianoImages()">Filtro Laplaciano</button>
-            <button class="button dilation" onclick="dilatacaoImages()">Dilatação</button>
-            <button class="button erosion" onclick="erosaoImages()">Erosão</button>
-            <button class="button opening" onclick="aberturaImagens()">Abertura</button>
-            <button class="button closing" onclick="fechamentoImagens()">Fechamento</button>
-            <button class="button contour" onclick="contornoImages()">Contorno</button>
+        </div>
+
+        <div class="button-column">
+            <button class="button dilation" style="background-color: rgb(79, 1, 124);" onclick="dilatacaoImages()">Dilatação</button>
+            <button class="button erosion" style="background-color: rgb(79, 1, 124);" onclick="erosaoImages()">Erosão</button>
+            <button class="button opening" style="background-color: rgb(79, 1, 124);" onclick="aberturaImagens()">Abertura</button>
+            <button class="button closing" style="background-color: rgb(79, 1, 124);" onclick="fechamentoImagens()">Fechamento</button>
+            <button class="button contour" style="background-color: rgb(79, 1, 124);" onclick="contornoImages()">Contorno</button>
         </div>
         
     </div>
