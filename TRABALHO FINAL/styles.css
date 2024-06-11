@@ -31,7 +31,7 @@ h1 {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
 .sidebar1, .sidebar2, .result{
@@ -44,6 +44,10 @@ h1 {
 
 .sidebar1, .sidebar2, .button-column, .result {
   margin-bottom: 20px;
+}
+
+.result{
+  margin-top: 30px;
 }
 
 h2 {
@@ -67,7 +71,7 @@ h2 {
 
 .button {
   display: inline-block;
-  background-color: #007bff;
+  background-color: #9900ff;
   color: white;
   padding: 10px 20px;
   text-align: center;
@@ -79,16 +83,14 @@ h2 {
 }
 
 .button:hover {
-  background-color: #0056b3;
+  background-color: #616161;
 }
 
 .button-column {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 10px;
 }
-
 
 .button-column .button {
   flex: 1 1 calc(33% - 20px);
@@ -135,5 +137,4 @@ h2 {
 
 .save {
   display: block;
-  margin-top: 15px;
 }
